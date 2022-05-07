@@ -9,7 +9,6 @@ from datetime import date
 if __name__ == "__main__":
     sqlite_con = sqlite3.connect(":memory:", detect_types=sqlite3.PARSE_DECLTYPES|sqlite3.PARSE_COLNAMES)
     cur = sqlite_con.cursor()
-
     cur.execute('''CREATE TABLE polaczenia (from_subscriber data_type INTEGER, 
                     to_subscriber data_type INTEGER, 
                     datetime data_type timestamp, 
@@ -17,10 +16,10 @@ if __name__ == "__main__":
                     celltower data_type INTEGER);''') 
     filename = input()
     with open(filename,'r') as fin: 
-        reader = csv.reader(fin, delimiter = ";")
+        reader = csv.reader(fin, delimiter = ",")
         next(reader, None)  
         rows = [x for x in reader]
-        cur.executemany("INSERT INTO polaczenia (from_subscriber, to_subscriber, datetime, duration , celltower) VALUES (?, ?, ?, ?, ?);", rows)
+        cur.executemany("INSERT INTO polaczenia (from_subscriber, to_subscriber, datetime, duration , celltower) VALUES (?, ?, ?, ?, ?);",  rows)
         sqlite_con.commit()
 
 
